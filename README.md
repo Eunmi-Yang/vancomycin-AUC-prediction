@@ -1,8 +1,8 @@
 # 🧪 Vancomycin-AUC-prediction  
 
-**Machine learning for prediction of vancomycin overexposure (AUC >600 mg·h/L)**
+**Machine learning for prediction of vancomycin overdose (AUC >600 mg·h/L)**
 
-- This repository contains code and results for machine learning models to predict vancomycin overexposure (AUC >600 mg·h/L) in hospitalized patients.  
+- This repository contains code and results for machine learning models to predict vancomycin overdose (AUC >600 mg·h/L) in hospitalized patients.  
 - Models are trained on EMR data, addressing class imbalance with SMOTE, and compared to commercial software (PrecisePK) for clinical decision support.
 
 
