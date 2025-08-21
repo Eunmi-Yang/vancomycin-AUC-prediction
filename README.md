@@ -10,7 +10,7 @@
 ## 🧠 Overview
 
 - **Goal:** Predict risk of vancomycin AUC >600 mg·h/L at treatment initiation using EMR data.
-- **Models:** 10 ML algorithms (logistic regression, Ridge, SVM, tree ensembles, etc.) with/without SMOTE.
+- **Models:** 9 ML algorithms (logistic regression, Ridge, SVM, tree ensembles, etc.)
 - **Interpretability:** SHAP values for feature importance.
 - **Performance Comparison:** We compared with a commercial Bayesian dosing software (PrecisePK) as an external reference standard.
 
@@ -33,16 +33,13 @@
 
 ## 🤖 Machine Learning Models
 
-- **Logistic Regression** (L2 regularization)
-- **RidgeClassifier**
-- **K-Nearest Neighbors**
-- **SVM** (RBF kernel)
-- **Random Forest**
-- **Extra Trees**
-- **XGBoost**
-- **CatBoost**
-- **Gradient Boosting**
-- **VotingClassifier**
+- 4 Logistic Regression(L1, L2, L1+L2, None)
+- SVM, Random Forest
+- XGBoost
+- CatBoost
+- Gradient Boosting
+- Ensemble
+
 
 
 
@@ -52,73 +49,43 @@
 
 <div style="overflow-x:auto">
 
-| Model              | PR-AUC   | ROC-AUC  | F1 Score | Sensitivity | Specificity | PPV      | NPV      | Accuracy | TP | FN | FP | TN |
-|--------------------|----------|----------|----------|-------------|-------------|----------|----------|----------|----|----|----|----|
-| LogisticRegression | 0.5640   | 0.8232   | 0.4643   | 0.7222      | 0.7312      | 0.3421   | 0.9315   | 0.7297   | 13 | 5  | 25 | 68 |
-| RidgeClassifier    | 0.5855   | 0.8375   | 0.5172   | 0.8333      | 0.7312      | 0.3750   | 0.9577   | 0.7477   | 15 | 3  | 25 | 68 |
+### 1. Internal Validation Performance
 
-**(a) Binary Classification – No SMOTE**
+#### Internal Validation Performance (20% hold-out, F1-max threshold)
 
-| Model              | PR-AUC   | ROC-AUC  | F1 Score | Sensitivity | Specificity | PPV      | NPV      | Accuracy | TP | FN | FP | TN |
-|--------------------|----------|----------|----------|-------------|-------------|----------|----------|----------|----|----|----|----|
-| LogisticRegression | 0.5640   | 0.8232   | 0.4643   | 0.7222      | 0.7312      | 0.3421   | 0.9315   | 0.7297   | 13 | 5  | 25 | 68 |
-| RidgeClassifier    | 0.5855   | 0.8375   | 0.5172   | 0.8333      | 0.7312      | 0.3750   | 0.9577   | 0.7477   | 15 | 3  | 25 | 68 |
-| KNN                | 0.2749   | 0.7100   | 0.2069   | 0.1667      | 0.9140      | 0.2727   | 0.8500   | 0.7928   | 3  | 15 | 8  | 85 |
-| SVM                | 0.3832   | 0.7186   | 0.3556   | 0.4444      | 0.7957      | 0.2963   | 0.8810   | 0.7387   | 8  | 10 | 19 | 74 |
-| RandomForest       | 0.3556   | 0.7715   | 0.0000   | 0.0000      | 1.0000      | 0.0000   | 0.8378   | 0.8378   | 0  | 18 | 0  | 93 |
-| GradientBoosting   | 0.5009   | 0.7658   | 0.3333   | 0.2222      | 0.9785      | 0.6667   | 0.8667   | 0.8559   | 4  | 14 | 2  | 91 |
-| XGBoost            | 0.3143   | 0.7246   | 0.2857   | 0.2222      | 0.9355      | 0.4000   | 0.8614   | 0.8198   | 4  | 14 | 6  | 87 |
-| CatBoost           | 0.4460   | 0.7497   | 0.1053   | 0.0556      | 1.0000      | 1.0000   | 0.8455   | 0.8468   | 1  | 17 | 0  | 93 |
-| ExtraTrees         | 0.3652   | 0.7279   | 0.0000   | 0.0000      | 1.0000      | 0.0000   | 0.8378   | 0.8378   | 0  | 18 | 0  | 93 |
-| VotingClassifier   | 0.4767   | 0.8256   | 0.2400   | 0.1667      | 0.9570      | 0.4286   | 0.8558   | 0.8288   | 3  | 15 | 4  | 89 |
+| Model                                   | PR-AUC | ROC-AUC | F1 Score | Sensitivity | Specificity | PPV   | NPV   | Accuracy | TP | FN | FP | TN |
+|-----------------------------------------|--------|---------|----------|-------------|-------------|-------|-------|----------|----|----|----|----|
+| Logistic Regression (L1, threshold=0.451)     | 0.606  | 0.861   | 0.596    | 0.778       | 0.839       | 0.483 | 0.951 | 0.829    | 14 | 4  | 15 | 78 |
+| Logistic Regression (L1+L2, threshold=0.454) | 0.606 | 0.861   | 0.583    | 0.778       | 0.828       | 0.467 | 0.951 | 0.820    | 14 | 4  | 16 | 77 |
+| Logistic Regression (L2, threshold=0.490)     | 0.582  | 0.854   | 0.604    | 0.722       | 0.871       | 0.520 | 0.942 | 0.847    | 13 | 5  | 12 | 81 |
+| Logistic Regression (None, threshold=0.490)   | 0.584  | 0.855   | 0.605    | 0.722       | 0.871       | 0.520 | 0.942 | 0.847    | 13 | 5  | 12 | 81 |
+| SVM (RBF, threshold=0.377)                    | 0.509  | 0.801   | 0.509    | 0.778       | 0.753       | 0.378 | 0.946 | 0.757    | 14 | 4  | 23 | 70 |
+| Random Forest (threshold=0.381)               | 0.314  | 0.722   | 0.464    | 0.889       | 0.624       | 0.314 | 0.967 | 0.667    | 16 | 2  | 35 | 58 |
+| XGBoost (threshold=0.313)                     | 0.378  | 0.709   | 0.414    | 0.667       | 0.699       | 0.300 | 0.916 | 0.694    | 12 | 6  | 28 | 65 |
+| CatBoost (threshold=0.324)                    | 0.376  | 0.712   | 0.426    | 0.722       | 0.677       | 0.302 | 0.927 | 0.685    | 13 | 5  | 30 | 63 |
+| Gradient Boosting (threshold=0.298)           | 0.323  | 0.728   | 0.421    | 0.889       | 0.548       | 0.276 | 0.962 | 0.604    | 16 | 2  | 42 | 51 |
+| Ensemble (threshold=0.412)   | 0.475  | 0.839   | 0.556    | 0.833       | 0.774       | 0.417 | 0.960 | 0.784    | 15 | 3  | 21 | 72 |
 
-**(b) Regression Models**
+---
 
-| Model            | ±20% Accuracy | ±30% Accuracy | RMSE    | MAE     | R²      |
-|------------------|----------------|----------------|---------|---------|---------|
-| LinearRegression | 0.6036         | 0.7477         | 132.56  | 95.22   | 0.2812  |
-| Ridge            | 0.5946         | 0.7477         | 131.81  | 94.85   | 0.2892  |
-| CatBoost         | 0.5766         | 0.7387         | 146.30  | 100.17  | 0.1243  |
-| GradientBoosting | 0.5586         | 0.7117         | 153.64  | 105.44  | 0.0343  |
-| ExtraTrees       | 0.5586         | 0.7207         | 144.77  | 99.03   | 0.1426  |
-| XGBoost          | 0.5225         | 0.6847         | 159.49  | 113.27  | -0.0406 |
-| RandomForest     | 0.5135         | 0.7117         | 146.30  | 104.16  | 0.1244  |
-| KNN              | 0.5045         | 0.6667         | 169.99  | 119.83  | -0.1821 |
-| SVR              | 0.4685         | 0.7297         | 158.35  | 113.17  | -0.0258 |
+### 2. Comparison with Precise PK Software
 
-**(c) Binary Classification – SMOTE Applied**
+| Model                                      | PR-AUC  | ROC-AUC | F1 Score | Sensitivity | Specificity | PPV    | NPV    | Accuracy | TP | FN | FP | TN |
+|--------------------------------------------|---------|---------|----------|-------------|-------------|--------|--------|----------|----|----|----|----|
+| Precise PK (AUC>600 rule)                   | 0.4520  | 0.7772  | 0.4000   | 0.6667      | 0.6774      | 0.2857 | 0.9130 | 0.6757   | 12 | 6  | 30 | 63 |
+| Logistic Regression (L1, threshold=0.549) | 0.6059  | 0.8608  | 0.5957   | 0.7778      | 0.8387      | 0.4828 | 0.9512 | 0.8288   | 14 | 4  | 15 | 78 |
 
-| Model              | PR-AUC   | ROC-AUC  | F1 Score | Sensitivity | Specificity | PPV      | NPV      | Accuracy | TP | FN | FP | TN |
-|--------------------|----------|----------|----------|-------------|-------------|----------|----------|----------|----|----|----|----|
-| LogisticRegression | 0.4312   | 0.7706   | 0.4898   | 0.6667      | 0.7957      | 0.3871   | 0.9250   | 0.7748   | 12 | 6  | 19 | 74 |
-| RidgeClassifier    | 0.4359   | 0.7718   | 0.4583   | 0.6111      | 0.7957      | 0.3667   | 0.9136   | 0.7658   | 11 | 7  | 19 | 74 |
-| KNN                | 0.2037   | 0.6251   | 0.3175   | 0.5556      | 0.6237      | 0.2222   | 0.8788   | 0.6126   | 10 | 8  | 35 | 58 |
-| SVM                | 0.2254   | 0.6314   | 0.1333   | 0.1111      | 0.8925      | 0.1667   | 0.8384   | 0.7658   | 2  | 16 | 10 | 83 |
-| RandomForest       | 0.3698   | 0.7234   | 0.3448   | 0.2778      | 0.9355      | 0.4545   | 0.8700   | 0.8288   | 5  | 13 | 6  | 87 |
-| GradientBoosting   | 0.3365   | 0.7216   | 0.3333   | 0.2778      | 0.9247      | 0.4167   | 0.8687   | 0.8198   | 5  | 13 | 7  | 86 |
-| XGBoost            | 0.3055   | 0.6959   | 0.4118   | 0.3889      | 0.9032      | 0.4375   | 0.8842   | 0.8198   | 7  | 11 | 9  | 84 |
-| CatBoost           | 0.3046   | 0.6846   | 0.3030   | 0.2778      | 0.8925      | 0.3333   | 0.8646   | 0.7928   | 5  | 13 | 10 | 83 |
-| ExtraTrees         | 0.1994   | 0.5896   | 0.1290   | 0.1111      | 0.8817      | 0.1538   | 0.8367   | 0.7568   | 2  | 16 | 11 | 82 |
-| VotingClassifier   | 0.3912   | 0.7766   | 0.3750   | 0.3333      | 0.9140      | 0.4286   | 0.8763   | 0.8198   | 6  | 12 | 8  | 85 |
+---
 
+### 3. External Validation Performance
 
+| Model                                  | PR-AUC  | ROC-AUC | F1 Score | Sensitivity | Specificity | PPV    | NPV    | Accuracy | TP | FN | FP | TN |
+|----------------------------------------|---------|---------|----------|-------------|-------------|--------|--------|----------|----|----|----|----|
+| Logistic Regression (L1, threshold=0.549) | 0.4597  | 0.8010  | 0.4762   | 0.7143      | 0.6786      | 0.3571 | 0.9048 | 0.6857   | 5  | 2  | 9  | 19 |
 
-#### 2. Comparison with Precise PK Software
+- <small><i>Positives (AUC>600) in external data: 7/35 (20.0%)</i></small>  
+- <small><i>Our model correctly identified 5 of the 7 positives (71.4%)</i></small>
 
-|       Model               | PR-AUC  | ROC-AUC | F1 Score | Sensitivity | Specificity | PPV    | NPV    | Accuracy | TP | FN | FP | TN |
-|----------------------|---------|---------|----------|-------------|-------------|--------|--------|----------|----|----|----|----|
-| Precise PK           | 0.4520  | 0.7772  | 0.4000   | 0.6667      | 0.6774      | 0.2857 | 0.9130 | 0.6757   | 12 | 6  | 30 | 63 |
-| No SMOTE best: RidgeClassifier | 0.5855  | 0.8375  | 0.5172   | 0.8333      | 0.7312      | 0.3750 | 0.9577 | 0.7477   | 15 | 3  | 25 | 68 |
-| SMOTE best: LogisticRegression | 0.4312  | 0.7706  | 0.4898   | 0.6667      | 0.7957      | 0.3871 | 0.9250 | 0.7748   | 12 | 6  | 19 | 74 |
-
-
-
-#### 3. External Validation Performance
-
-|                                 | PR-AUC  | ROC-AUC | F1 Score | Sensitivity | Specificity | PPV    | NPV    | Accuracy | TP | FN | FP | TN |
-|---------------------------------|---------|---------|----------|-------------|-------------|--------|--------|----------|----|----|----|----|
-| External - RidgeClassifier (No SMOTE)  | 0.2292  | 0.5255  | 0.3871   | 0.8571      | 0.3571      | 0.2500 | 0.9091 | 0.4571   | 6  | 1  | 18 | 10 |
-| External - LogisticRegression (SMOTE)  | 0.3789  | 0.7194  | 0.4545   | 0.7143      | 0.6429      | 0.3333 | 0.9000 | 0.6571   | 5  | 2  | 10 | 18 |
 
 </div>
 
