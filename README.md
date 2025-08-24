@@ -43,7 +43,6 @@
 | Actual Positive | 15 (TP)            | 3 (FN)             |
 | Actual Negative | 20 (FP)            | 73 (TN)            |
 
----
 
 ## 2. Comparison with PrecisePK
 
@@ -57,7 +56,6 @@ Against the same hold-out set, our Elastic Net model outperformed **PrecisePK**:
 | Precise PK (AUC>600 rule)              | 0.452  | 0.777   | 0.400    | 0.667       | 0.677       | 0.286 | 0.913 | 0.676    | 12 | 6  | 30 | 63 |
 | Logistic Regression (L1+L2, thr=0.482) | 0.639  | 0.893   | 0.566    | 0.833       | 0.785       | 0.429 | 0.961 | 0.793    | 15 | 3  | 20 | 73 |
 
----
 
 ## 3. External Validation
 
@@ -90,7 +88,7 @@ External cohort: **n=35 (positives 7, 20%)**
 | Actual Positive | 5 (TP)             | 2 (FN)             |
 | Actual Negative | 11 (FP)            | 17 (TN)            |
 
----
+
 
 ## 4. Clinical Implications
 
@@ -102,7 +100,7 @@ External cohort: **n=35 (positives 7, 20%)**
 * Suitable as a **triage tool** to flag patients at risk of vancomycin overexposure before therapeutic drug monitoring (TDM).
 * Thresholds can be re-tuned per site depending on prevalence and risk tolerance.
 
----
+
 
 ## 5. Limitations and Future Work
 
@@ -116,7 +114,6 @@ External cohort: **n=35 (positives 7, 20%)**
   * Decision-curve and net-benefit analyses
   * Integration into EHR workflows
 
----
 
 
 ## 6. SHAP Analysis (Model Interpretation)
