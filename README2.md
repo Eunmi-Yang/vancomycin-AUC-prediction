@@ -3,7 +3,6 @@
 This repository contains code, data processing, and evaluation results for predicting vancomycin overexposure (AUC >600 mg·h/L) using machine learning models.
 Our primary model is **Logistic Regression with Elastic Net regularization**, benchmarked against other ML models and commercial software (PrecisePK).
 
----
 
 ## 1. Internal Validation (20% hold-out, CV-fixed Youden threshold)
 
