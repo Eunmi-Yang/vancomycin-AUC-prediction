@@ -109,3 +109,17 @@ External cohort: **n=35 (positives 7, 20%)**
 ---
 
 
+## 6. SHAP Analysis (Model Interpretation)
+
+* We used SHAP (SHapley Additive exPlanations) to interpret the contribution of individual variables.
+* This provided insight into why the model made certain predictions and confirmed consistency with clinical knowledge.
+
+<p align="center"> <img src="figure/Fig. 4. SHAP analysis_internal_external.png" alt="SHAP analysis" width="650"/> </p>
+
+* Key findings:
+
+  * Vancomycin dose and kidney function (CrCl) were the most influential variables, consistent with pharmacokinetic principles.
+  * Hemoglobin, albumin, and body weight also contributed, suggesting patients with anemia, hypoalbuminemia, or low body weight may be more vulnerable to overexposure.
+  * CRP and diuretic use showed additional influence, reflecting the role of inflammation and renal elimination.
+
+
