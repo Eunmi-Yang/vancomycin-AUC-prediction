@@ -1,7 +1,6 @@
 # Vancomycin AUC >600 Prediction Models
 
-This repository contains code, data processing, and evaluation results for predicting vancomycin overexposure (AUC >600 mg·h/L) using machine learning models.
-Our primary model is **Logistic Regression with Elastic Net regularization**, benchmarked against other ML models and commercial software (PrecisePK).
+- This repository contains code and results for machine learning models to predict vancomycin overdose (AUC >600 mg·h/L) in hospitalized patients.  
 
 ## 0. Datasets
 
