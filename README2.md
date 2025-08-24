@@ -3,6 +3,17 @@
 This repository contains code, data processing, and evaluation results for predicting vancomycin overexposure (AUC >600 mg·h/L) using machine learning models.
 Our primary model is **Logistic Regression with Elastic Net regularization**, benchmarked against other ML models and commercial software (PrecisePK).
 
+## 0. Datasets
+
+| Dataset             | Source                   | Period                               | N   | AUC >600 (%) |
+|---------------------|--------------------------|--------------------------------------|-----|--------------|
+| Training            | Tertiary medical center  | 2020.11–2024.07 (first 80%, by time) | 442 | 17.4%        |
+| Internal validation | Tertiary medical center  | 2020.11–2024.07 (last 20%, by time)  | 111 | 16.2%        |
+| External validation | Secondary medical center | 2023.07–2023.09                      | 35  | 20.0%        |
+
+* The dataset from the tertiary medical center (2020.11–2024.07) was split chronologically by an 80:20 ratio to create the training and internal validation sets.
+* The external validation cohort consists of all eligible cases from the secondary center during 2023.07–2023.09.
+* **Variables:** Demographics, renal function/labs, medications, ICU/ward status, initial vancomycin dose.
 
 ## 1. Internal Validation (20% hold-out, CV-fixed Youden threshold)
 
