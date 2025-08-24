@@ -122,4 +122,12 @@ External cohort: **n=35 (positives 7, 20%)**
   * Hemoglobin, albumin, and body weight also contributed, suggesting patients with anemia, hypoalbuminemia, or low body weight may be more vulnerable to overexposure.
   * CRP and diuretic use showed additional influence, reflecting the role of inflammation and renal elimination.
 
+## 7. Conclusion 
+- We developed and externally validated machine learning models to predict vancomycin overexposure (AUC >600 mg·h/L).
+- Logistic Regression with Elastic Net achieved high sensitivity and strong negative predictive value, supporting its use as a screening tool before TDM.
+- Larger multicenter studies are warranted to confirm generalizability and guide clinical adoption.
+
+## Contact
+
+For inquiries, contact Yong Kyun Kim (amoureuxyk@naver.com)
 
